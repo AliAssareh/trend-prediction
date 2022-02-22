@@ -1,17 +1,18 @@
+import time
+
+import numpy as np
+import torch
+from sklearn.svm import SVC
+from torch import nn
+
+from FeatureEngineeringUtils.btc_feature_engineering_utils import TrainTestValidationLoader, \
+    MixedDataTrainTestValidationLoader
 from ModelingUtils.models import VariationalAutoencoder, FullyConnectedNet, vae_train_epoch, vae_test_epoch, \
     VariationalEncoder, encode, ConvWideDeepLSTMNet, MixedConvWideDeepLSTMNet, AuxiliaryMixedConvWideDeepLSTMNet, \
     vae_plot
-from ModelingUtils.models import train_epoch, test_epoch, save_vae_on_validation_improvement, ConvCandlesDataset
 from ModelingUtils.models import save_model_on_validation_improvement, load_model, load_fcn, load_encoder, predict, \
     evaluate, plot_stats_box
-from FeatureEngineeringUtils.btc_feature_engineering_utils import TrainTestValidationLoader, \
-    MixedDataTrainTestValidationLoader
-from torch.utils.data import Dataset
-from sklearn.svm import SVC
-from torch import nn
-import torch
-import numpy as np
-import time
+from ModelingUtils.models import train_epoch, test_epoch, save_vae_on_validation_improvement, ConvCandlesDataset
 
 
 class Cwdn:
@@ -632,7 +633,7 @@ class MixCwdn:
         self.cwdn = load_model(f'torch_models//{self.model_name}_mixcwdn_{self.suffix}.pth', self.cwdn)
 
         self.cwdn.conv_net.btc = load_model(f'torch_models//btc_4h_for_target1_1_conv_net_1.pth',
-                                             self.cwdn.conv_net.btc)
+                                            self.cwdn.conv_net.btc)
         self.cwdn.conv_net.btcd = load_model(f'torch_models//mix_4h_for_target1_1_ax_conv_net_1_{self.suffix}.pth',
                                              self.cwdn.conv_net.btcd)
         self.cwdn.conv_net.total = load_model(f'torch_models//mix_4h_for_target1_1_ax_conv_net_2_{self.suffix}.pth',

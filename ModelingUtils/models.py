@@ -1,14 +1,15 @@
-from sklearn.metrics import r2_score, confusion_matrix, ConfusionMatrixDisplay, roc_curve, auc
-from torch.utils.data import Dataset
-from torch.autograd import Variable
-import torch.nn.functional as F
-from torch import nn
-import torch
-import matplotlib.pyplot as plt
-import pandas as pd
-from tqdm import tqdm
-import numpy as np
 from enum import Enum
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn.functional as F
+from sklearn.metrics import r2_score, confusion_matrix, ConfusionMatrixDisplay, roc_curve, auc
+from torch import nn
+from torch.autograd import Variable
+from torch.utils.data import Dataset
+from tqdm import tqdm
 
 
 class Decoder(Enum):
@@ -1047,7 +1048,7 @@ def vae_plot(model, device, dataset):
 
     fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12.8, 4.8))
     ax[0].scatter(encoded_samples.iloc[:, 0].values, encoded_samples.iloc[:, 1], s=3, c=encoded_samples.loc[:, 'label'],
-                cmap='bwr')
+                  cmap='bwr')
     ax[0].set(xlabel="dim1", ylabel="dim2")
     im = ax[1].scatter(encoded_samples.iloc[:, 0].values, encoded_samples.iloc[:, 2], s=3,
                        c=encoded_samples.loc[:, 'label'], cmap='bwr')
@@ -1197,9 +1198,9 @@ def plot_stats_box(y_test, preds, groups=30, add_plot=None):
     batch_size = int(len(b_preds) / groups)
     scores = []
     for i in range(groups):
-        if i != groups-1:
-            predictions = b_preds[i*batch_size: (i+1)*batch_size]
-            labels = b_y_test[i*batch_size: (i+1)*batch_size]
+        if i != groups - 1:
+            predictions = b_preds[i * batch_size: (i + 1) * batch_size]
+            labels = b_y_test[i * batch_size: (i + 1) * batch_size]
         else:
             predictions = b_preds[i * batch_size:]
             labels = b_y_test[i * batch_size:]
@@ -1216,5 +1217,3 @@ def plot_stats_box(y_test, preds, groups=30, add_plot=None):
         ax.set_title('left: ' + add_plot.get('title_1', None) + '    right: ' + add_plot.get('title_2', None))
         ax.boxplot([scores, add_plot.get('scores')], notch=True)
     return scores
-
-
